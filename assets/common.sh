@@ -17,6 +17,8 @@ check_version() {
         # rfc1123Format="%d\ %b\ %Y\ %H:%M:%S\ GMT" - in order to work in boot2docker, it has to be outside of quotes in the command below
         local dateString=$(date +"$dateVersionFormat" -D %d\ %b\ %Y\ %H:%M:%S\ GMT -d "$tmpDateString")
   fi
-
-  echo "{\"version\":\"$dateString\"}" | jq --slurp .
+  local versionValue="$dateString"
+  local urlContents=$(curl -R -s $1 2>&1 | tr -d '[:cntrl:]')
+  [ -n "$include_contents_in_version" ] && versionValue="$versionValue - $urlContents";
+  echo "{\"version\":\"$versionValue\"}" | jq --slurp .
 }

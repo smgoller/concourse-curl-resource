@@ -15,6 +15,7 @@ url=$(jq -r '.source.url // ""' < $payload)
 username=$(jq -r '.source.username // ""' < $payload)
 password=$(jq -r '.source.password // ""' < $payload)
 skip_ssl_verification=$(jq -r '.source.skip_ssl_verification // ""' < $payload)
+include_contents_in_version=$(jq -r '.source.include_contents_in_version // ""' < $payload)
 
 if [ -z "$url" ]; then
   echo "invalid payload (missing url)"

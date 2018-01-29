@@ -50,6 +50,20 @@ it_can_get_file_with_basic_auth() {
 
 }
 
+it_can_include_contents_in_the_version() {
+
+  echo $resource_dir
+
+  jq -n "{
+    source: {
+      url: $(echo $FILE_URL_WITHOUT_LAST_MODIFIED_INFO | jq -R .),
+      include_contents_in_version: true
+    }
+  }" | $resource_dir/check "$FILE_URL_WITHOUT_LAST_MODIFIED_INFO" | tee /dev/stderr
+
+}
+
 run it_can_get_file_with_last_modified_info
 run it_can_get_file_without_last_modified_info
 run it_can_get_file_with_basic_auth
+run it_can_include_contents_in_the_version
